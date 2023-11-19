@@ -1,0 +1,8 @@
+"IDBJugar" : "Play",
+"IDBTutorial" : "Tutorial",
+"IDBTienda" : "Shop",
+"IDBBorrarDatos" : "Delete Data",
+"IDBConfirmacionBorrarDatos" : "Are you sure you want to delete all the saved data?",
+"IDBSi": "Yes",
+"IDBNo" : "No",
+"IDBDatosEliminados" : "Saved data has been deleted"
