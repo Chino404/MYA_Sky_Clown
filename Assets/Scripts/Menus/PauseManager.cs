@@ -13,7 +13,7 @@ public class PauseManager : MonoBehaviour
     }
     public void ReturnMainMenu()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
     public void ResumeGame()
     {

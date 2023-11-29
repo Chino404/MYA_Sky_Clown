@@ -12,8 +12,16 @@ public class LocalizationManager : MonoBehaviour
 
     private void Awake()
     {
+        if(instance!=null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
         instance = this;
         _translate = LanguageU.LoadTranslate(data);
+            DontDestroyOnLoad(gameObject);
+        }
     }
 
     public string GetTranslate(string ID)
