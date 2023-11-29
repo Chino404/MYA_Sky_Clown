@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] float _speed;
     public float counter;
+    public float damage;
     ObjectPool<Bullet> _objectPool;
 
 
@@ -35,5 +36,14 @@ public class Bullet : MonoBehaviour
     {
         bullet.counter = 0;
         bullet.gameObject.SetActive(true);
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        IDamageable damageable = collision.GetComponent<IDamageable>();
+        if (damageable != null)
+        {
+            damageable.TakeDamage(damage);
+            Debug.Log("hago daño");
+        }
     }
 }

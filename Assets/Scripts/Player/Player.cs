@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour, IObservableImpulse
+public class Player : Rewind, IObservableImpulse, IDamageable
 {
     [Tooltip("Poner el Stick del Joystick")]
     [SerializeField] Controller _controller;
@@ -13,6 +13,7 @@ public class Player : MonoBehaviour, IObservableImpulse
     [SerializeField] float _speed;
     [SerializeField] float _jumpForce;
     [SerializeField]ForceMode2D _jumpForceMode;
+    public float life;
 
     View _view;
     public event Action onJump;
@@ -77,4 +78,26 @@ public class Player : MonoBehaviour, IObservableImpulse
             _impulse.Remove(obs);
     }
 
+    public void TakeDamage(float damage)
+    {
+        life -= damage;
+    }
+
+    public override void Save()
+    {
+        currentState.Rec(transform.position, transform.rotation, life);
+    }
+
+    public override void Load()
+    {
+        if(currentState.IsRemember())
+        {
+            var col = currentState.Remember();
+            transform.position = (Vector3)col.parameters[0];
+            transform.rotation = (Quaternion)col.parameters[1];
+            life = (float)col.parameters[2];
+        }
+
+
+    }
 }

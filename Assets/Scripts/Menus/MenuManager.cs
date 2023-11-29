@@ -6,15 +6,18 @@ using UnityEngine.SceneManagement;
 public class MenuManager : MonoBehaviour
 {
     public GameObject playButton;
-   
-    public void PlayButton()
+   public void MainMenu()
     {
         SceneManager.LoadScene(1);
+    }
+    public void PlayButton()
+    {
+        SceneManager.LoadScene(2);
         Time.timeScale = 1;
     }
     public void TutorialLevel()
     {
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(3);
         Time.timeScale = 1;
 
     }

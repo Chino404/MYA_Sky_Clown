@@ -1,10 +1,6 @@
 {
 "IDBJugar" : "Jugar",
-"IDBTutorial" : "Tutorial",
-"IDBTienda" : "Tienda",
-"IDBBorrarDatos" : "Borrar datos",
-"IDBConfirmacionBorrarDatos" : "Estas seguro que quieres eliminar todos los datos guardados?",
-"IDBSi": "Si",
-"IDBNo" : "No",
-"IDBDatosEliminados" : "Se han eliminado todos los datos guardados"
+"IDBTutorial" : "Entrenamiento",
+"IDBReanudar" : "Reanudar",
+"IDBMenu" : "Menu principal"
 }
