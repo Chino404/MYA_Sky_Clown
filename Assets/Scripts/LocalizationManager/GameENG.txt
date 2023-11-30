@@ -1,5 +1,7 @@
 "IDBJugar" : "Play",
 "IDBTutorial" : "Training",
 "IDBReanudar" : "Resume",
-"IDBMenu" : "Main Menu"
+"IDBMenu" : "Main Menu",
+"IDBGuardar" : "Save Game",
+"IDBCargar" : "Load Game"
 

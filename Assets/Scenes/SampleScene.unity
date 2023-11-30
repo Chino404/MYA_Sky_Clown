@@ -1345,7 +1345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01d35816d7d2d1e429dd4949cb53dc9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: IDBMenu
+  ID: IDBGuardar
   textUI: {fileID: 2110301694}
 --- !u!114 &1027999397
 MonoBehaviour:
@@ -2140,6 +2140,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rewinds:
   - {fileID: 1890847186}
+  - {fileID: 1451509526}
 --- !u!4 &1432528768
 Transform:
   m_ObjectHideFlags: 0
@@ -3175,7 +3176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01d35816d7d2d1e429dd4949cb53dc9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: IDBMenu
+  ID: IDBCargar
   textUI: {fileID: 791460405}
 --- !u!114 &1874174466
 MonoBehaviour:
@@ -3883,10 +3884,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
+  m_fontSize: 26.85
   m_fontSizeBase: 24
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
