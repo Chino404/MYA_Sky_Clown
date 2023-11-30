@@ -211,6 +211,7 @@ GameObject:
   - component: {fileID: 108289037}
   - component: {fileID: 108289036}
   - component: {fileID: 108289035}
+  - component: {fileID: 108289038}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: Untagged
@@ -333,6 +334,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 108289033}
   m_CullTransparentMesh: 1
+--- !u!114 &108289038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 108289033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01d35816d7d2d1e429dd4949cb53dc9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ID: IDBMenu
+  textUI: {fileID: 1510651606}
 --- !u!1 &309815439
 GameObject:
   m_ObjectHideFlags: 0
@@ -1151,6 +1166,7 @@ GameObject:
   - component: {fileID: 1927441764}
   - component: {fileID: 1927441763}
   - component: {fileID: 1927441762}
+  - component: {fileID: 1927441765}
   m_Layer: 5
   m_Name: Resume
   m_TagString: Untagged
@@ -1273,3 +1289,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1927441760}
   m_CullTransparentMesh: 1
+--- !u!114 &1927441765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1927441760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01d35816d7d2d1e429dd4949cb53dc9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ID: IDBReanudar
+  textUI: {fileID: 1616666684}

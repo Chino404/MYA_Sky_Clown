@@ -2,5 +2,7 @@
 "IDBJugar" : "Jugar",
 "IDBTutorial" : "Entrenamiento",
 "IDBReanudar" : "Reanudar",
-"IDBMenu" : "Menu principal"
+"IDBMenu" : "Menu principal",
+"IDBGuardar" : "Guardar partida",
+"IDBCargar" : "Cargar partida"
 }
