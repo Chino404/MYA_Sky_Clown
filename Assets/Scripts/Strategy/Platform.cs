@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Platform : MonoBehaviour
+public class Platform : Rewind
 {
     //public float speed;
     public IAdvance myMovement;
@@ -55,6 +55,22 @@ public class Platform : MonoBehaviour
         myMovement = newAdvance;
     }
 
+    public override void Save()
+    {
+        currentState.Rec(transform.position, transform.rotation);
+    }
+
+    public override void Load()
+    {
+        if (currentState.IsRemember())
+        {
+            var col = currentState.Remember();
+            transform.position = (Vector3)col.parameters[0];
+            transform.rotation = (Quaternion)col.parameters[1];
+            
+        }
+    }
+
     //Vector3 Seek(Vector3 target)
     //{
     //    var desired = target - transform.position;
@@ -64,7 +80,7 @@ public class Platform : MonoBehaviour
     //    var steering = desired - _velocity;
     //    steering = Vector3.ClampMagnitude(steering, maxForce);
 
-        
+
     //    return steering;
     //}
 
