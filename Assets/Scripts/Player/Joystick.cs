@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems; //Para utilizar los botones
 
 //SE LO CARGAMOS AL STICK (SPRITE) DEL JOYSTICK
-public class Joystick : Controller, IDragHandler, IEndDragHandler //IDragHandler es una interfaz que sirve para detectar el agarre - IEndHandler sirve para decirme cuando termino el agarre (Vienen con Unity)
+public class Joystick : ControllerMobile, IDragHandler, IEndDragHandler //IDragHandler es una interfaz que sirve para detectar el agarre - IEndHandler sirve para decirme cuando termino el agarre (Vienen con Unity)
 {
     Vector3 _moveDir = default;
     Vector3 initialPosition = default;
