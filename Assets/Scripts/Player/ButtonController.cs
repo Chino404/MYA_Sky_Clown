@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ButtonController : Controller
+public class ButtonController : ControllerMobile
 {
     Vector3 _moveDir;
 
