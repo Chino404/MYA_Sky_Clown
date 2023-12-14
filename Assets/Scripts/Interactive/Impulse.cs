@@ -8,37 +8,52 @@ using UnityEngine.UI;
 public class Impulse : MonoBehaviour, IObserverImpulse
 {
     [SerializeField] ForceMode2D _impulseMode;
-    [Range(0,10)]
-    [SerializeField] int _force;
-    [Range(0,1), Tooltip("Valor del realntizamiento")]
-    [SerializeField] float _slowedDown = 0.2f;
-    [Range(0,3), Tooltip("Tiempo realentizado")]
-    [SerializeField] float _slowedDownTime =3f;
+    [Range(10,100)]
+    [SerializeField] private int _force;
+    [SerializeField] private float _impulseTime;
+    [SerializeField] private float _impulseCooldown;
+    public bool _impulseEnabled;
+
+    private TrailRenderer _trailRenderer;
+    private Rigidbody2D _rb;
+    private Transform _transform;
 
 
     private void Start()
     {
-        _slowedDownTime *= _slowedDown;
-    }
-
-    public void Action (Rigidbody2D rb2d/*, Vector2 dir*/)
-    {
-        //StartCoroutine(Timer());
-        rb2d.AddForce(Vector2.up * _force, _impulseMode);
-        Debug.Log("Impulso");
+        _impulseEnabled = true;
 
     }
 
-    IEnumerator Timer()
+    public void Action (Rigidbody2D rb2d, Transform transform, TrailRenderer trailRenderer)
     {
+        _rb = rb2d;
+        _transform = transform;
+        _trailRenderer = trailRenderer;
 
-        Time.timeScale = _slowedDown;
+        //rb2d.AddForce(Vector2.up * _force, _impulseMode);
 
-        yield return new WaitForSeconds(_slowedDownTime);
+        if (_impulseEnabled)
+        {
+            StartCoroutine(Boost());
+            Debug.Log("Impulso");
+        }
 
-        Time.timeScale = 1.0f;
 
-        yield return null;
+    }
+
+    private IEnumerator Boost()
+    {
+        _impulseEnabled = false;
+        float originalGravity = _rb.gravityScale;
+        _rb.gravityScale = 0f;
+        _rb.velocity = new Vector2(0f, _transform.localScale.y * _force);
+        _trailRenderer.emitting = true;
+        yield return new WaitForSeconds(_impulseTime);
+        _trailRenderer.emitting = false;
+        _rb.gravityScale = originalGravity;
+        yield return new WaitForSeconds(_impulseCooldown);
+        _impulseEnabled = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

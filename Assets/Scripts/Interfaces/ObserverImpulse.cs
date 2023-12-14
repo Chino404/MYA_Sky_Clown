@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IObserverImpulse
 {
-    public void Action(Rigidbody2D rb2d/*, Vector2 dir*/);
+    public void Action(Rigidbody2D rb2d, Transform transform, TrailRenderer trailRenderer);
 }

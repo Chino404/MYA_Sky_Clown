@@ -6,25 +6,37 @@ using UnityEngine;
 
 public class Player : Rewind, IObservableImpulse, IDamageable
 {
-    [SerializeField] SpriteRenderer _renderer;
-    [SerializeField] float _gravity; 
-    [SerializeField] float _speed;
-    [SerializeField] float _jumpForce;
-    [SerializeField]ForceMode2D _jumpForceMode;
-    public float life;
+    private View _view;
+    private Controller _controller;
+    private Rigidbody2D _myRB = default;
+    private TrailRenderer _tr;
 
-    View _view;
-    Controller _controller;
+    [Header("Stats Player")]
+    public float life;
+    [SerializeField] private SpriteRenderer _renderer;
+    [SerializeField] private float _gravity; 
+    [SerializeField] private float _speed;
+    [SerializeField] private float _jumpForce;
+    [SerializeField] private Transform _floorCheck;
+    [SerializeField] private LayerMask _floorLayer;
+    private bool _boosting;
+
+    [SerializeField, Range(0,0.5f)]private float _coyoteTime = 0.2f;
+    [HideInInspector] public float coyoteTimeCounter;
+
     public event Action onJump;
 
-    Rigidbody2D _myRB = default;
-    public bool inFloor = default;
-
-    private void Start()
+    private void Awake()
     {
         _view = new View(_renderer, this);
         _controller = new Controller(this);
         _myRB = GetComponent<Rigidbody2D>();
+        _tr = GetComponent<TrailRenderer>();
+    }
+
+    private void Start()
+    {
+        _myRB.gravityScale = _gravity;
     }
 
     //private void FixedUpdate()
@@ -34,45 +46,49 @@ public class Player : Rewind, IObservableImpulse, IDamageable
 
     void Update()
     {
-       // _controller.ArtificialJump();
+        if(IsFloor())
+        {
+            coyoteTimeCounter = _coyoteTime;
+            _boosting = false;
+        }
+        else
+            coyoteTimeCounter -= Time.deltaTime;
+
         _controller.ArtificialUpdate();
-        Gravity();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    public bool IsFloor()
     {
-        if (collision.gameObject.layer == 6)//si colisiona con el piso
-        {
-            inFloor = true;
-
-        }
+        return Physics2D.OverlapCircle(_floorCheck.position, 0.2f, _floorLayer);
     }
 
     public void Move(float hor)
     {
-        _myRB.AddForce((transform.right * hor).normalized * _speed * Time.fixedDeltaTime, ForceMode2D.Force);
-        //transform.position += transform.right * hor * _speed * Time.deltaTime;
+        _myRB.velocity = new Vector2(hor * _speed + Time.fixedDeltaTime, _myRB.velocity.y);
     }
 
 
     #region Jump
-    public void Gravity()
-    {
-        _myRB.gravityScale = _gravity;
-    }
-
     public void Jump()
     {
-        if (inFloor)
-        {
-            inFloor = false;
-            _myRB.AddForce(Vector2.up * _jumpForce, _jumpForceMode);
-            onJump?.Invoke();
-            Debug.Log("salto");
-        }
+        _myRB.velocity = new Vector2(_myRB.velocity.x, _jumpForce);
+        onJump?.Invoke();
+    }
 
-        foreach(var item in _impulse) //Llamo a todos los impulso que tenga suscrito
-            item.Action(_myRB/*, _controller.GetMovementInput()*/);
+    public void CutJump()
+    {
+        if(_myRB.velocity.x > 0 && !_boosting)
+        {
+            _myRB.velocity = new Vector2(_myRB.velocity.x, _myRB.velocity.y * 0.5f);
+        }
+    }
+
+    public void Boost()
+    {
+        _boosting = true;
+
+        foreach (var item in _impulse) //Llamo a todos los impulso que tenga suscrito
+            item.Action(_myRB, transform, _tr);
     }
 
     #endregion
@@ -96,6 +112,8 @@ public class Player : Rewind, IObservableImpulse, IDamageable
         life -= damage;
     }
 
+    #region Memento
+
     public override void Save()
     {
         currentState.Rec(transform.position, transform.rotation, life);
@@ -111,4 +129,6 @@ public class Player : Rewind, IObservableImpulse, IDamageable
             life = (float)col.parameters[2];
         }
     }
+
+    #endregion
 }

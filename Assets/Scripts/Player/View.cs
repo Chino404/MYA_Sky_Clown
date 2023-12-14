@@ -28,7 +28,7 @@ public class View
 
     public void Jump()
     {
-        if (_player.inFloor)
+        if (_player.IsFloor())
         {
             _renderer.color = Color.green;
         }
@@ -36,17 +36,5 @@ public class View
         {
             _renderer.color = Color.yellow;
         }
-    }
-
-    public void OnJump()
-    {
-        _renderer.color = Color.yellow;
-        actualMethod = InFloor;
-    }
-
-    public void InFloor()
-    {
-        _renderer.color = Color.green;
-        actualMethod = OnJump;
     }
 }

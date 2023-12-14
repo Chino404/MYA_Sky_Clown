@@ -17,13 +17,25 @@ public class Controller
         _player.Move(hor);
 
         if (Input.GetButtonDown("Jump"))
-            _player.Jump();
+        {
+            if(_player.coyoteTimeCounter > 0f)
+                _player.Jump();
+
+            else
+                _player.Boost();
+        }
+
+        if(Input.GetButtonUp("Jump"))
+        {
+            _player.CutJump();
+            _player.coyoteTimeCounter = 0f;
+        }
 
     }
 
     public void ArtificialJump()
     {
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && _player.IsFloor())
             _player.Jump();
     }
 }
