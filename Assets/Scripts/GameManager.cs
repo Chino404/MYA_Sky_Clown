@@ -4,7 +4,14 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
+
     public Rewind[] rewinds;
+
+    private void Start()
+    {
+        instance = this;
+    }
 
     public void SaveGame()
     {
