@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IObservableImpulse
+public interface IObservable
 {
     void Subscribe(IObserverImpulse obs);
 

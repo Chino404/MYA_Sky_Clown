@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class EventManager 
 {
-    public delegate void MyEvents();//delegate es una varaible que me permite guardar metodos
+    public delegate void MyEvents(params object[] parameters);//El "params" antes del array me permite pasarle cosas sueltas y el me arma el array
 
     static Dictionary<string, MyEvents> _myEvents = new Dictionary<string, MyEvents>();
 
@@ -27,9 +27,9 @@ public static class EventManager
         }
     }
 
-    public static void Trigger(string name)
+    public static void Trigger(string name, params object[] parameters)
     {
         if(_myEvents.ContainsKey(name)) //Si tengo un evento con ese nombre, lo llamo
-            _myEvents[name]();
+            _myEvents[name](parameters);
     }
 }

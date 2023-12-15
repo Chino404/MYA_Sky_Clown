@@ -54,13 +54,13 @@ public class Impulse : MonoBehaviour, IObserverImpulse
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.GetComponent<IObservableImpulse>() != null)
-            collision.gameObject.GetComponent<IObservableImpulse>().Subscribe(this);
+        if (collision.gameObject.GetComponent<IObservable>() != null)
+            collision.gameObject.GetComponent<IObservable>().Subscribe(this);
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.GetComponent<IObservableImpulse>() != null)
-            collision.gameObject.GetComponent<IObservableImpulse>().Unsubscribe(this);
+        if (collision.gameObject.GetComponent<IObservable>() != null)
+            collision.gameObject.GetComponent<IObservable>().Unsubscribe(this);
 
     }
 
