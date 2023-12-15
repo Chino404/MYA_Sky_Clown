@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Rewind, IObservableImpulse, IDamageable
+public class Player : Rewind, IObservable, IDamageable
 {
     private View _view;
     private Controller _controller;
@@ -12,7 +12,8 @@ public class Player : Rewind, IObservableImpulse, IDamageable
     private TrailRenderer _tr;
 
     [Header("Stats Player")]
-    public float life;
+    public float maxLife;
+    private float _actualLife;
     private bool _isFacingRight = true;
     [SerializeField] private SpriteRenderer _renderer;
     [SerializeField] private float _gravity; 
@@ -22,10 +23,10 @@ public class Player : Rewind, IObservableImpulse, IDamageable
     [SerializeField, Range(0,0.5f)] private float _coyoteTime = 0.2f;
     private float _coyoteTimeCounter;
     [SerializeField] private float _dashingPower = 24f;
+    [SerializeField] private float _dashingCooldown = 0.5f;
+    private float _dashingTime = 0.2f;
     private bool _canDash = true;
     private bool _isDashing;
-    private float _dashingTime = 0.2f;
-    private float _dashingCooldown = 0.5f;
 
     private bool _boostReady;
     private bool _boosting;
@@ -49,6 +50,7 @@ public class Player : Rewind, IObservableImpulse, IDamageable
     private void Start()
     {
         _myRB.gravityScale = _gravity;
+        _actualLife = maxLife;
     }
 
     void Update()
@@ -171,7 +173,14 @@ public class Player : Rewind, IObservableImpulse, IDamageable
 
     public void TakeDamage(float damage)
     {
-        life -= damage;
+        _actualLife -= damage;
+        EventManager.Trigger("LifeBar", maxLife, _actualLife);
+
+        if (_actualLife <= 0f)
+        {
+            _actualLife = 0f;
+            Debug.Log("Player Death");
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -190,7 +199,7 @@ public class Player : Rewind, IObservableImpulse, IDamageable
 
     public override void Save()
     {
-        currentState.Rec(transform.position, transform.rotation, life);
+        currentState.Rec(transform.position, transform.rotation, maxLife);
     }
 
     public override void Load()
@@ -200,7 +209,7 @@ public class Player : Rewind, IObservableImpulse, IDamageable
             var col = currentState.Remember();
             transform.position = (Vector3)col.parameters[0];
             transform.rotation = (Quaternion)col.parameters[1];
-            life = (float)col.parameters[2];
+            maxLife = (float)col.parameters[2];
         }
     }
 
