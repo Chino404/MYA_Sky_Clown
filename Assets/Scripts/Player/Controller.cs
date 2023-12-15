@@ -16,26 +16,20 @@ public class Controller
         float hor = Input.GetAxisRaw("Horizontal");
         _player.Move(hor);
 
-        if (Input.GetButtonDown("Jump"))
+        if(Input.GetKey(KeyCode.LeftShift))
         {
-            if(_player.coyoteTimeCounter > 0f)
-                _player.Jump();
-
-            else
-                _player.Boost();
+            _player.Dash();
         }
+
+        if (!Input.GetButton("Jump"))
+            _player.RestartDoubleJump();
+
+        if (Input.GetButtonDown("Jump"))
+            _player.Jump();
 
         if(Input.GetButtonUp("Jump"))
-        {
             _player.CutJump();
-            _player.coyoteTimeCounter = 0f;
-        }
 
-    }
 
-    public void ArtificialJump()
-    {
-        if (Input.GetButtonDown("Jump") && _player.IsFloor())
-            _player.Jump();
     }
 }
