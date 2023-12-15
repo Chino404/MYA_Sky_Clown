@@ -17,7 +17,7 @@ public class View
         _renderer = renderer;
         _player = player;
 
-        player.onJump += JumpFeedBack;
+        player.viewJump += JumpFeedBack;
         actualMethod = Jump;
     }
 

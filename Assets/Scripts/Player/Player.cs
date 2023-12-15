@@ -13,18 +13,30 @@ public class Player : Rewind, IObservableImpulse, IDamageable
 
     [Header("Stats Player")]
     public float life;
+    private bool _isFacingRight = true;
     [SerializeField] private SpriteRenderer _renderer;
     [SerializeField] private float _gravity; 
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForce;
-    [SerializeField] private Transform _floorCheck;
-    [SerializeField] private LayerMask _floorLayer;
+    [SerializeField] private bool _doubleJump;
+    [SerializeField, Range(0,0.5f)] private float _coyoteTime = 0.2f;
+    private float _coyoteTimeCounter;
+    [SerializeField] private float _dashingPower = 24f;
+    private bool _canDash = true;
+    private bool _isDashing;
+    private float _dashingTime = 0.2f;
+    private float _dashingCooldown = 0.5f;
+
+    private bool _boostReady;
     private bool _boosting;
 
-    [SerializeField, Range(0,0.5f)]private float _coyoteTime = 0.2f;
-    [HideInInspector] public float coyoteTimeCounter;
+    [Header("Reference")]
+    [SerializeField] private Transform _floorCheck;
+    [SerializeField] private LayerMask _floorLayer;
+    [SerializeField] private Transform _wallCheck;
+    [SerializeField] private LayerMask _wallLayer;
 
-    public event Action onJump;
+    public event Action viewJump;
 
     private void Awake()
     {
@@ -39,22 +51,37 @@ public class Player : Rewind, IObservableImpulse, IDamageable
         _myRB.gravityScale = _gravity;
     }
 
-    //private void FixedUpdate()
-    //{
-    //    _controller.ArtificialUpdate();
-    //}
-
     void Update()
     {
         if(IsFloor())
         {
-            coyoteTimeCounter = _coyoteTime;
+            _coyoteTimeCounter = _coyoteTime;
             _boosting = false;
         }
         else
-            coyoteTimeCounter -= Time.deltaTime;
+            _coyoteTimeCounter -= Time.deltaTime;
 
         _controller.ArtificialUpdate();
+    }
+
+    public void Move(float hor)
+    {
+        if (_isDashing)
+            return;
+
+        Flip(hor);
+        _myRB.velocity = new Vector2(hor * _speed + Time.fixedDeltaTime, _myRB.velocity.y);
+    }
+
+    private void Flip(float hor)
+    {
+        if(_isFacingRight && hor <0f || !_isFacingRight && hor > 0f)
+        {
+            _isFacingRight = !_isFacingRight;
+            Vector3 localScale = transform.localScale;
+            localScale.x *= -1f;
+            transform.localScale = localScale;
+        }
     }
 
     public bool IsFloor()
@@ -62,17 +89,21 @@ public class Player : Rewind, IObservableImpulse, IDamageable
         return Physics2D.OverlapCircle(_floorCheck.position, 0.2f, _floorLayer);
     }
 
-    public void Move(float hor)
-    {
-        _myRB.velocity = new Vector2(hor * _speed + Time.fixedDeltaTime, _myRB.velocity.y);
-    }
-
-
     #region Jump
     public void Jump()
     {
-        _myRB.velocity = new Vector2(_myRB.velocity.x, _jumpForce);
-        onJump?.Invoke();
+        if (_isDashing)
+            return;
+
+        if(_boostReady) Boost();
+
+        else if (_coyoteTimeCounter > 0f || _doubleJump)
+        {
+            _myRB.velocity = new Vector2(_myRB.velocity.x, _jumpForce);
+            _doubleJump = !_doubleJump;
+            viewJump?.Invoke();
+        }
+
     }
 
     public void CutJump()
@@ -80,17 +111,48 @@ public class Player : Rewind, IObservableImpulse, IDamageable
         if(_myRB.velocity.x > 0 && !_boosting)
         {
             _myRB.velocity = new Vector2(_myRB.velocity.x, _myRB.velocity.y * 0.5f);
+            _coyoteTimeCounter = 0;
         }
+    }
+
+
+    public void RestartDoubleJump()
+    {
+        if (IsFloor()) _doubleJump = false;
     }
 
     public void Boost()
     {
         _boosting = true;
-
         foreach (var item in _impulse) //Llamo a todos los impulso que tenga suscrito
-            item.Action(_myRB, transform, _tr);
+            item.Boost(_myRB, transform, _tr);
+    }
+    #endregion
+
+    #region Dash
+    public void Dash()
+    {
+        if (_canDash)
+        {
+            StartCoroutine(Dashing());
+        }
     }
 
+    IEnumerator Dashing()
+    {
+        _canDash = false;
+        _isDashing = true;
+        float originalGravity = _myRB.gravityScale;
+        _myRB.gravityScale = 0f;
+        _myRB.velocity = new Vector2(transform.localScale.x * _dashingPower, 0f);
+        _tr.emitting = true;
+        yield return new WaitForSeconds(_dashingTime);
+        _tr.emitting = false;
+        _myRB.gravityScale = originalGravity;
+        _isDashing = false;
+        yield return new WaitForSeconds(_dashingCooldown);
+        _canDash = true;
+    }
     #endregion
 
     public List<IObserverImpulse> _impulse = new List<IObserverImpulse>();
@@ -110,6 +172,18 @@ public class Player : Rewind, IObservableImpulse, IDamageable
     public void TakeDamage(float damage)
     {
         life -= damage;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.GetComponent<IObserverImpulse>() != null)
+            _boostReady = true;
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.GetComponent<IObserverImpulse>() != null)
+            _boostReady = false;
     }
 
     #region Memento

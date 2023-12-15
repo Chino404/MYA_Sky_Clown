@@ -25,21 +25,17 @@ public class Impulse : MonoBehaviour, IObserverImpulse
 
     }
 
-    public void Action (Rigidbody2D rb2d, Transform transform, TrailRenderer trailRenderer)
+    public void Boost (Rigidbody2D rb2d, Transform transform, TrailRenderer trailRenderer)
     {
         _rb = rb2d;
         _transform = transform;
         _trailRenderer = trailRenderer;
-
-        //rb2d.AddForce(Vector2.up * _force, _impulseMode);
 
         if (_impulseEnabled)
         {
             StartCoroutine(Boost());
             Debug.Log("Impulso");
         }
-
-
     }
 
     private IEnumerator Boost()
