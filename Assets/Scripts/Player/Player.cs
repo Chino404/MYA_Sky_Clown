@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Rewind, IObservable, IDamageable
+public class Player : Rewind, IObservable, IDamageable, IPlayer
 {
     private View _view;
     private Controller _controller;
@@ -199,7 +199,7 @@ public class Player : Rewind, IObservable, IDamageable
 
     public override void Save()
     {
-        currentState.Rec(transform.position, transform.rotation, maxLife);
+        currentState.Rec(transform.position, transform.rotation, _actualLife);
     }
 
     public override void Load()
@@ -209,7 +209,7 @@ public class Player : Rewind, IObservable, IDamageable
             var col = currentState.Remember();
             transform.position = (Vector3)col.parameters[0];
             transform.rotation = (Quaternion)col.parameters[1];
-            maxLife = (float)col.parameters[2];
+            _actualLife = (float)col.parameters[2];
         }
     }
 

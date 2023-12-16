@@ -16,7 +16,9 @@ public class Turret : MonoBehaviour
 
     bool _inZone;
     bool _coolDown;
-    
+
+    public delegate void MyEvent();
+    public event MyEvent myEvent; 
     //public GameObject shooter;
     
 
