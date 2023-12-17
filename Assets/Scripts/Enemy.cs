@@ -2,13 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Enemies
 {
-    public Transform[] wayPoints;
-    public float speed;
-    public float maxForce;
-    Vector3 _velocity;
-    int _actualIndex;
+    
     public static Enemy instance;
     private void Awake()
     {
@@ -23,26 +19,10 @@ public class Enemy : MonoBehaviour
             if (_actualIndex >= wayPoints.Length)
                 _actualIndex = 0;
         }
-        transform.position += _velocity * Time.deltaTime;
-        transform.right = _velocity;
+        transform.position += velocity * Time.deltaTime;
+        transform.right = velocity;
     }
-    Vector3 Seek(Vector3 pos)
-    {
-        var desired = pos - transform.position;
-        desired.Normalize();
-        desired *= speed;
-
-        var steering = desired - _velocity;
-        steering = Vector3.ClampMagnitude(steering, maxForce);
-
-        return steering;
-    }
-    public void AddForce(Vector3 dir)
-    {
-        _velocity += dir;
-
-        _velocity = Vector3.ClampMagnitude(_velocity, speed);
-    }
+    
     public void Death()
     {
         Destroy(gameObject);
