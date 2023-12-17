@@ -4,32 +4,44 @@ using UnityEngine;
 
 public class Controller
 {
-    Player _player;
+    private Player _player;
+    private View _view;
+    private bool jumping = false;
 
-    public Controller(Player player)
+    public Controller(Player player, View view)
     {
         _player = player;
+        _view = view;
     }
 
     public void ArtificialUpdate()
     {
         float hor = Input.GetAxisRaw("Horizontal");
-        _player.Move(hor);
 
-        if(Input.GetKey(KeyCode.LeftShift))
+        _player.Move(hor);
+        _view.FeedBack(hor, jumping);
+
+
+        if (Input.GetKey(KeyCode.LeftShift))
         {
             _player.Dash();
         }
 
         if (!Input.GetButton("Jump"))
+        {
             _player.RestartDoubleJump();
+        }
 
         if (Input.GetButtonDown("Jump"))
+        {
+            jumping = true;
             _player.Jump();
+        }
 
-        if(Input.GetButtonUp("Jump"))
+        if (Input.GetButtonUp("Jump"))
+        {
+            jumping = false;
             _player.CutJump();
-
-
+        }
     }
 }

@@ -4,22 +4,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D), typeof(Animator))]
 public class Player : Rewind, IObservable, IDamageable, IPlayer
 {
     private View _view;
     private Controller _controller;
     private Rigidbody2D _myRB = default;
+    private Animator _animator;
+    private SpriteRenderer _spr;
     private TrailRenderer _tr;
 
     [Header("Stats Player")]
+    [SerializeField] private float _gravity; 
     public float maxLife;
     private float _actualLife;
+    public Color baseColor;
+    public Color dmgColor;
     private bool _isFacingRight = true;
-    [SerializeField] private SpriteRenderer _renderer;
-    [SerializeField] private float _gravity; 
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForce;
-    [SerializeField] private bool _doubleJump;
+    private bool _doubleJump;
     [SerializeField, Range(0,0.5f)] private float _coyoteTime = 0.2f;
     private float _coyoteTimeCounter;
     [SerializeField] private float _dashingPower = 24f;
@@ -34,23 +38,24 @@ public class Player : Rewind, IObservable, IDamageable, IPlayer
     [Header("Reference")]
     [SerializeField] private Transform _floorCheck;
     [SerializeField] private LayerMask _floorLayer;
-    [SerializeField] private Transform _wallCheck;
-    [SerializeField] private LayerMask _wallLayer;
 
-    public event Action viewJump;
+    public event Action viewDmg;
 
     private void Awake()
     {
-        _view = new View(_renderer, this);
-        _controller = new Controller(this);
         _myRB = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
+        _spr = GetComponent<SpriteRenderer>();
         _tr = GetComponent<TrailRenderer>();
+        _view = new View(this, _spr ,_animator, baseColor, dmgColor);
+        _controller = new Controller(this,_view);
     }
 
     private void Start()
     {
         _myRB.gravityScale = _gravity;
         _actualLife = maxLife;
+        _spr.color = baseColor;
     }
 
     void Update()
@@ -103,7 +108,7 @@ public class Player : Rewind, IObservable, IDamageable, IPlayer
         {
             _myRB.velocity = new Vector2(_myRB.velocity.x, _jumpForce);
             _doubleJump = !_doubleJump;
-            viewJump?.Invoke();
+            //viewDmg?.Invoke();
         }
 
     }
