@@ -4,37 +4,58 @@ using UnityEngine;
 
 public class View
 {
-    private SpriteRenderer _renderer;
     private Player _player;
-    public Material onMoveMaterial;
+    private SpriteRenderer _spriteRenderer;
+    private Animator _animator;
+    private Color _baseColor;
+    private Color _dmgColor;
 
-    delegate void JumpView();
-    JumpView actualMethod;
-    //private Animator _anim;
+    private float _hor;
+    private bool _jumping;
 
-    public View(SpriteRenderer renderer, Player player)
+    delegate void viewMethod();
+    viewMethod actualMethod;
+
+    public View(Player player, SpriteRenderer spriteRenderer , Animator animator, Color baseColor, Color dmgColor)
     {
-        _renderer = renderer;
         _player = player;
+        _spriteRenderer = spriteRenderer;
+        _animator = animator;
+        _baseColor = baseColor;
+        _dmgColor = dmgColor;
 
-        player.viewJump += JumpFeedBack;
-        actualMethod = Jump;
+        actualMethod += Walikng;
+        actualMethod += Jump;
+
     }
 
-    public void JumpFeedBack()
+    public void FeedBack(float hor, bool jumping)
     {
+        _jumping = jumping;
+        _hor = hor;
+
         actualMethod();
     }
 
+    //public void GetDamage()
+    //{
+    //    float timer = 0;
+
+    //    while(timer > 0.2f)
+    //    {
+    //        _spriteRenderer.color = _dmgColor;
+    //        timer += Time.deltaTime;
+    //    }
+    //    _spriteRenderer.color = _baseColor;
+    //}
+
     public void Jump()
     {
-        if (_player.IsFloor())
-        {
-            _renderer.color = Color.green;
-        }
-        else
-        {
-            _renderer.color = Color.yellow;
-        }
+        _animator.SetBool("Jump", _jumping);
+    }
+
+    public void Walikng()
+    {
+        _animator.SetFloat("Horizontal", Mathf.Abs(_hor));
     }
 }
