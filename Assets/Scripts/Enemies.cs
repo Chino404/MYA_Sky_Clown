@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemies : MonoBehaviour
+public abstract class Enemies : MonoBehaviour
 {
     public Transform[] wayPoints;
     public float speed;
     public float maxForce;
-    public Vector3 velocity;
-    [HideInInspector]public int _actualIndex;
+    [HideInInspector]public Vector3 velocity;
+    [HideInInspector]public int actualIndex;
+    public float damage;
+
 
     public Vector3 Seek(Vector3 pos)
     {

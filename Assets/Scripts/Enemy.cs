@@ -12,12 +12,12 @@ public class Enemy : Enemies
     }
     private void Update()
     {
-        AddForce(Seek(wayPoints[_actualIndex].position));
-        if(Vector3.Distance(transform.position, wayPoints[_actualIndex].position)<=0.3f)
+        AddForce(Seek(wayPoints[actualIndex].position));
+        if(Vector3.Distance(transform.position, wayPoints[actualIndex].position)<=0.3f)
         {
-            _actualIndex++;
-            if (_actualIndex >= wayPoints.Length)
-                _actualIndex = 0;
+            actualIndex++;
+            if (actualIndex >= wayPoints.Length)
+                actualIndex = 0;
         }
         transform.position += velocity * Time.deltaTime;
         transform.right = velocity;
