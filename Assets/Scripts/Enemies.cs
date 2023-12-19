@@ -18,10 +18,11 @@ public abstract class Enemies : MonoBehaviour
         desired.Normalize();
         desired *= speed;
 
-        var steering = desired - velocity;
-        steering = Vector3.ClampMagnitude(steering, maxForce);
+        //var steering = desired - velocity;
+        //steering = Vector3.ClampMagnitude(steering, maxForce);
 
-        return steering;
+        //return steering;
+        return desired;
     }
     public void AddForce(Vector3 dir)
     {

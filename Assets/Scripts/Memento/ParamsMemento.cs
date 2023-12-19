@@ -9,5 +9,6 @@ public class ParamsMemento
     public ParamsMemento(params object[] p)
     {
         parameters = p;
+        
     }
 }

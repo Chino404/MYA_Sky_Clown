@@ -4,5 +4,9 @@
 "IDBReanudar" : "Reanudar",
 "IDBMenu" : "Menu principal",
 "IDBGuardar" : "Guardar partida",
-"IDBCargar" : "Cargar partida"
+"IDBCargar" : "Cargar partida",
+"IDBRestart": "Reiniciar",
+"IDBGameOver": "Has perdido",
+"IDBPausa": "Pausa",
+"IDBWin": "Victoria"
 }

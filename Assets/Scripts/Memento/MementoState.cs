@@ -15,9 +15,10 @@ public class MementoState
     {
         return data != null;
     }
-    
+
     public ParamsMemento Remember()
     {
         return data;
     }
+
 }
