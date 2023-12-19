@@ -69,6 +69,9 @@ public class Player : Rewind, IObservable, IDamageable, IPlayer
             _coyoteTimeCounter -= Time.deltaTime;
 
         _controller.ArtificialUpdate();
+
+        if (_actualLife <= 0)
+            PauseManager.instance.GameOver();
     }
 
     public void Move(float hor)
@@ -186,7 +189,9 @@ public class Player : Rewind, IObservable, IDamageable, IPlayer
             _actualLife = 0f;
             Debug.Log("Player Death");
         }
+        _view.GetDamage();
     }
+    
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -212,6 +217,7 @@ public class Player : Rewind, IObservable, IDamageable, IPlayer
         if(currentState.IsRemember())
         {
             var col = currentState.Remember();
+            
             transform.position = (Vector3)col.parameters[0];
             transform.rotation = (Quaternion)col.parameters[1];
             _actualLife = (float)col.parameters[2];

@@ -26,6 +26,7 @@ public class View
 
         actualMethod += Walikng;
         actualMethod += Jump;
+        //actualMethod += GetDamage;
 
     }
 
@@ -37,17 +38,18 @@ public class View
         actualMethod();
     }
 
-    //public void GetDamage()
-    //{
-    //    float timer = 0;
+    
+    public void GetDamage()
+    {
+        _player.StartCoroutine(ChangeColor());
+    }
+    IEnumerator ChangeColor()
+    {
+        _spriteRenderer.color = _dmgColor;
+        yield return new WaitForSeconds(0.5f);
+        _spriteRenderer.color = _baseColor;
 
-    //    while(timer > 0.2f)
-    //    {
-    //        _spriteRenderer.color = _dmgColor;
-    //        timer += Time.deltaTime;
-    //    }
-    //    _spriteRenderer.color = _baseColor;
-    //}
+    }
 
     public void Jump()
     {

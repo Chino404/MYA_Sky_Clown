@@ -17,7 +17,7 @@ public class Bird : Enemies
         transform.position += velocity * Time.deltaTime;
         transform.right = velocity;
     }
-    private void OnCollisionStay2D(Collision2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
         if (damageable != null)
@@ -26,4 +26,5 @@ public class Bird : Enemies
             Debug.Log("hago daño");
         }
     }
+    
 }

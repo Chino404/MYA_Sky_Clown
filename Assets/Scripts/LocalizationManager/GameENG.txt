@@ -3,5 +3,9 @@
 "IDBReanudar" : "Resume",
 "IDBMenu" : "Main Menu",
 "IDBGuardar" : "Save Game",
-"IDBCargar" : "Load Game"
+"IDBCargar" : "Load Game",
+"IDBRestart": "Restart",
+"IDBGameOver": "Game Over",
+"IDBPausa": "Pause",
+"IDBWin": "Win"
 
