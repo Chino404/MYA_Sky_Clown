@@ -8,5 +8,7 @@
 "IDBRestart": "Reiniciar",
 "IDBGameOver": "Has perdido",
 "IDBPausa": "Pausa",
-"IDBWin": "Victoria"
+"IDBWin": "Victoria",
+"IDBSalir": "Salir",
+"IDBNextLvL": "Siguiente nivel"
 }

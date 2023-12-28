@@ -9,6 +9,10 @@ public class ParamsMemento
     public ParamsMemento(params object[] p)
     {
         parameters = p;
-        
+        //parameters = new object[p.Length];
+        //for (int i = 0; i < p.Length; i++)
+        //{
+        //    parameters[i] = p[i];
+        //}
     }
 }

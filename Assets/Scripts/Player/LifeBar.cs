@@ -14,6 +14,7 @@ public class LifeBar : MonoBehaviour
 
     private void Start()
     {
+        
         EventManager.Subscribe("LifeBar", ProjectLife);
     }
 
@@ -23,5 +24,12 @@ public class LifeBar : MonoBehaviour
         var actualLife = (float)parameters[1];
 
         _lifeBar.fillAmount = actualLife / maxLife;
+        if (_lifeBar == null)
+            _lifeBar.fillAmount = maxLife;
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.Unsubscribe("LifeBar", ProjectLife);
     }
 }

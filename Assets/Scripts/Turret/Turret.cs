@@ -9,8 +9,8 @@ public class Turret : MonoBehaviour
     public Bullet prefab;
     //public GameObject turret;
     
-    public Transform target;
-
+    Transform _target;
+    
     Factory<Bullet> _factory;
     ObjectPool<Bullet> _objectPool;
 
@@ -25,15 +25,16 @@ public class Turret : MonoBehaviour
     private void Start()
     {
         _factory = new BulletFactory(prefab);
-
+        //target = Player.player.transform;
         _objectPool = new ObjectPool<Bullet>(_factory.GetObj,Bullet.TurnOff,Bullet.TurnOn, _bulletQuantity);
+        
     }
 
     void Update()
     {
         if(_inZone)
         {
-            Vector2 direction = target.position - transform.position;
+            Vector2 direction = _target.position - transform.position;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
             //turret.transform.LookAt(new Vector3(transform.position.x, transform.position.y,target.position.x));
@@ -56,8 +57,9 @@ public class Turret : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D objectTriggered)
     {
-        if (objectTriggered.transform == target)
+        if (objectTriggered.transform.GetComponent<Player>())
         {
+            _target = objectTriggered.transform;
             _inZone = true;
             Debug.Log("en zona");
         }
@@ -66,8 +68,9 @@ public class Turret : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D objectTriggered)
     {
-        if (objectTriggered.transform == target)
+        if (objectTriggered.transform == _target)
         {
+            _target = null;
             _inZone = false;
             Debug.Log("fuera de zona");
         }
