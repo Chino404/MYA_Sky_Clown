@@ -667,7 +667,7 @@ RectTransform:
   m_GameObject: {fileID: 1397295324}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 23.71193, y: 9.829187, z: 9.829187}
+  m_LocalScale: {x: 32.094097, y: 13.303805, z: 13.303805}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 208778601}
@@ -745,7 +745,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23744d6b7e134644a8559d6e24e8104c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playButton: {fileID: 0}
 --- !u!4 &1827889990
 Transform:
   m_ObjectHideFlags: 0

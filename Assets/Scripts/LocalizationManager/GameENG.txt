@@ -7,5 +7,7 @@
 "IDBRestart": "Restart",
 "IDBGameOver": "Game Over",
 "IDBPausa": "Pause",
-"IDBWin": "Win"
+"IDBWin": "Win",
+"IDBSalir": "Quit",
+"IDBNextLvL": "Next Level"
 
