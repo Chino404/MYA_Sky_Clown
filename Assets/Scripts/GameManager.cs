@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 
     public Rewind[] rewinds;
 
-    private void Start()
+    private void Awake()
     {
         instance = this;
     }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Enemies : MonoBehaviour
+public abstract class Enemies : Rewind
 {
     public Transform[] wayPoints;
     public float speed;

@@ -17,7 +17,7 @@ public class Bird : Enemies
         transform.position += velocity * Time.deltaTime;
         transform.right = velocity;
     }
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
         if (damageable != null)
@@ -25,6 +25,22 @@ public class Bird : Enemies
             damageable.TakeDamage(damage);
             Debug.Log("hago daño");
         }
+        
     }
-    
+
+    public override void Save()
+    {
+        currentState.Rec(transform.position, transform.rotation);
+    }
+
+    public override void Load()
+    {
+        if (currentState.IsRemember())
+        {
+            var col = currentState.Remember();
+            transform.position = (Vector3)col.parameters[0];
+            transform.rotation = (Quaternion)col.parameters[1];
+
+        }
+    }
 }
