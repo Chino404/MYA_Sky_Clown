@@ -116,4 +116,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 5
   counter: 0
-  damage: 10
+  damage: 30

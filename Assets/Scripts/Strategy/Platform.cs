@@ -62,13 +62,13 @@ public class Platform : Rewind
 
     public override void Load()
     {
-        //if (currentState.IsRemember())
-        //{
-        //    var col = currentState.Remember();
-        //    transform.position = (Vector3)col.parameters[0];
-        //    transform.rotation = (Quaternion)col.parameters[1];
+        if (currentState.IsRemember())
+        {
+            var col = currentState.Remember();
+            transform.position = (Vector3)col.parameters[0];
+            transform.rotation = (Quaternion)col.parameters[1];
             
-        //}
+        }
     }
 
     //Vector3 Seek(Vector3 target)

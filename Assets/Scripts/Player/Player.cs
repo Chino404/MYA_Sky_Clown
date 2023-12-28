@@ -13,7 +13,7 @@ public class Player : Rewind, IObservable, IDamageable, IPlayer
     private Animator _animator;
     private SpriteRenderer _spr;
     private TrailRenderer _tr;
-
+    
     [Header("Stats Player")]
     [SerializeField] private float _gravity; 
     public float maxLife;
@@ -39,10 +39,14 @@ public class Player : Rewind, IObservable, IDamageable, IPlayer
     [SerializeField] private Transform _floorCheck;
     [SerializeField] private LayerMask _floorLayer;
 
+    public static Player player;
     public event Action viewDmg;
+
+    public float minPos;
 
     private void Awake()
     {
+        player = this;
         _myRB = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _spr = GetComponent<SpriteRenderer>();
@@ -56,6 +60,7 @@ public class Player : Rewind, IObservable, IDamageable, IPlayer
         _myRB.gravityScale = _gravity;
         _actualLife = maxLife;
         _spr.color = baseColor;
+        
     }
 
     void Update()
@@ -72,6 +77,9 @@ public class Player : Rewind, IObservable, IDamageable, IPlayer
 
         if (_actualLife <= 0)
             PauseManager.instance.GameOver();
+
+        if (transform.position.y < minPos)
+            _actualLife = 0;
     }
 
     public void Move(float hor)
@@ -217,7 +225,6 @@ public class Player : Rewind, IObservable, IDamageable, IPlayer
         if(currentState.IsRemember())
         {
             var col = currentState.Remember();
-            
             transform.position = (Vector3)col.parameters[0];
             transform.rotation = (Quaternion)col.parameters[1];
             _actualLife = (float)col.parameters[2];

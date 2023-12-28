@@ -25,6 +25,24 @@ public class Enemy : Enemies
     
     public void Death()
     {
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        gameObject.SetActive(false);
+    }
+
+    public override void Save()
+    {
+        currentState.Rec(transform.position, transform.rotation);
+
+    }
+
+    public override void Load()
+    {
+        if (currentState.IsRemember())
+        {
+            var col = currentState.Remember();
+            transform.position = (Vector3)col.parameters[0];
+            transform.rotation = (Quaternion)col.parameters[1];
+
+        }
     }
 }
